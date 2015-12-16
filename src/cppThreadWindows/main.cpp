@@ -41,35 +41,23 @@ int main(int argc, char* argv[])
 
 using namespace std;
  
-void thread_function1()
+void thread_function(int id)
 {
     char quit = ' ';
     while(quit != 'q')
     {
-        cout << "thread_function1" << endl;
+        cout << "thread_function" << "\t" << id << endl;
         cin >> quit;
     }
     
-    cout << "thread_function1 quitting" << endl;
-}
-
-void thread_function2()
-{
-    char quit = ' ';
-    while(quit != 'q')
-    {
-        cout << "thread_function2" << endl;
-        cin >> quit;
-    }
-    
-    cout << "thread_function2 quitting" << endl;
+    cout << "thread_function quitting:" << "\t" << id << endl;
 }
  
 int main()  
 {
     
-    thread threadObj(thread_function1);
-    thread threadObj2(thread_function2);
+    thread threadObj(thread_function, 1);
+    thread threadObj2(thread_function, 2);
     
     cout << "Display From MainThread" << endl;
     
