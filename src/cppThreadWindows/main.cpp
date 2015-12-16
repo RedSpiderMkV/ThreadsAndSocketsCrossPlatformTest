@@ -38,20 +38,45 @@ int main(int argc, char* argv[])
 #else
 #include<thread>
 #endif
+
+using namespace std;
  
-void thread_function()
+void thread_function1()
 {
-    for(int i = 0; i < 10000; i++);
-        std::cout<<"thread function Executing"<<std::endl;
+    char quit = ' ';
+    while(quit != 'q')
+    {
+        cout << "thread_function1" << endl;
+        cin >> quit;
+    }
+    
+    cout << "thread_function1 quitting" << endl;
+}
+
+void thread_function2()
+{
+    char quit = ' ';
+    while(quit != 'q')
+    {
+        cout << "thread_function2" << endl;
+        cin >> quit;
+    }
+    
+    cout << "thread_function2 quitting" << endl;
 }
  
 int main()  
 {
     
-    std::thread threadObj(thread_function);
-    for(int i = 0; i < 10000; i++);
-        std::cout<<"Display From MainThread"<<std::endl;
-    threadObj.join();    
-    std::cout<<"Exit of Main function"<<std::endl;
+    thread threadObj(thread_function1);
+    thread threadObj2(thread_function2);
+    
+    cout << "Display From MainThread" << endl;
+    
+    threadObj.join();
+    threadObj2.join();
+    
+    cout << "Exit of Main function" << endl;
+    
     return 0;
 }
