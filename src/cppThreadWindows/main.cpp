@@ -32,7 +32,9 @@ int main(int argc, char* argv[])
 	return 0;
 }*/
 
-#include<iostream>
+#include <iostream>
+#include <functional>
+
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
 #include "mingw.thread.h"
 #else
@@ -40,8 +42,8 @@ int main(int argc, char* argv[])
 #endif
 
 using namespace std;
- 
-void thread_function(int id)
+
+void thread_function(int id, function<void(char)> callback)
 {
     char quit = ' ';
     while(quit != 'q')
@@ -51,13 +53,21 @@ void thread_function(int id)
     }
     
     cout << "thread_function quitting:" << "\t" << id << endl;
+    callback(quit);
 }
- 
-int main()  
+
+void callbackFunc(char inputChar)
 {
-    
-    thread threadObj(thread_function, 1);
-    thread threadObj2(thread_function, 2);
+    if(inputChar == 'q')
+    {
+        cout << "Quit Input!" << endl << endl;
+    }
+}
+
+int main()
+{
+    thread threadObj(thread_function, 1, callbackFunc);
+    thread threadObj2(thread_function, 2, callbackFunc);
     
     cout << "Display From MainThread" << endl;
     
