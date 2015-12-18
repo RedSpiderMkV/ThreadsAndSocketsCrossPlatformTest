@@ -66,12 +66,12 @@ void callbackFunc(char inputChar)
 
 int main()
 {
-    thread threadObj(thread_function, 1, callbackFunc);
+    thread threadObj1(thread_function, 1, callbackFunc);
     thread threadObj2(thread_function, 2, callbackFunc);
     
     cout << "Display From MainThread" << endl;
     
-    threadObj.join();
+    threadObj1.join();
     threadObj2.join();
     
     cout << "Exit of Main function" << endl;
