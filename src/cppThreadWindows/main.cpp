@@ -39,37 +39,31 @@ int main(int argc, char* argv[])
 #include<thread>
 #endif
 
-using namespace std;
- 
-void thread_function1()
-{
-    char quit = ' ';
-    while(quit != 'q')
-    {
-        cout << "thread_function1" << endl;
-        cin >> quit;
-    }
-    
-    cout << "thread_function1 quitting" << endl;
-}
+#include <chrono>
 
-void thread_function2()
+using namespace std;
+
+void thread_function(int id)
 {
-    char quit = ' ';
-    while(quit != 'q')
+    int count = 0;
+    while(count < 10)
     {
-        cout << "thread_function2" << endl;
-        cin >> quit;
+        cout << this_thread::get_id() << "\t";
+        cout << "thread_function" << "\t" << count << "\t";
+        cout << id << endl;
+        
+        count++;
+        
+        this_thread::sleep_for(std::chrono::milliseconds(500));
     }
     
-    cout << "thread_function2 quitting" << endl;
+    cout << "thread_function quitting" << "\t" << id << endl;
 }
  
 int main()  
 {
-    
-    thread threadObj(thread_function1);
-    thread threadObj2(thread_function2);
+    thread threadObj(thread_function, 1);
+    thread threadObj2(thread_function, 2);
     
     cout << "Display From MainThread" << endl;
     
