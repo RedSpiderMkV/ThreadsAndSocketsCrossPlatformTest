@@ -49,8 +49,8 @@ void thread_function(int id)
     while(count < 10)
     {
         cout << this_thread::get_id() << "\t";
-        cout << "thread_function" << "\t" << count << "\t";
-        cout << id << endl;
+        cout << "thread_function callcount" << "\t" << count << "\t";
+        cout << "threadId\t" << id << endl;
         
         count++;
         int timeout = rand() % 1000;
@@ -62,24 +62,34 @@ void thread_function(int id)
  
 int main()  
 {
-    thread threadObj(thread_function, 1);
-    thread threadObj2(thread_function, 2);
+    //thread threadObj(thread_function, 1);
+    //thread threadObj2(thread_function, 2);
     
     cout << "Display From MainThread" << endl;
     
-    threadObj.join();
-    threadObj2.join();
+    //threadObj.join();
+    //threadObj2.join();
     
     thread threadArr[5];
     
     for(int i = 0; i < 5; i++)
     {
         threadArr[i] = thread(thread_function, i);
+        threadArr[i].detach();
     }
     
-    for(int i = 0; i < 5; i++)
+    //for(int i = 0; i < 5; i++)
+    //{
+        //threadArr[i].join();
+    //}
+    
+    char quit = 'n';
+    while(quit != 'y')
     {
-        threadArr[i].join();
+        this_thread::sleep_for(std::chrono::milliseconds(1000));
+        
+        cout << "Quit?" << endl;
+        cin >> quit;
     }
     
     cout << "Exit of Main function" << endl;
