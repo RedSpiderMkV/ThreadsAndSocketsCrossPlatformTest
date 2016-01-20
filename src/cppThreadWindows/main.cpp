@@ -32,14 +32,17 @@ int main(int argc, char* argv[])
 	return 0;
 }*/
 
-#include<iostream>
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-#include "mingw.thread.h"
+    #include "mingw.thread.h"
+    #define _OS_ 0
 #else
-#include<thread>
+    #include <thread>
+    #define _OS_ 1
 #endif
 
+#include <iostream>
 #include <chrono>
+#include <stdio.h>
 
 using namespace std;
 
@@ -49,12 +52,11 @@ void thread_function(int id)
     while(count < 10)
     {
         cout << this_thread::get_id() << "\t";
-        cout << "thread_function callcount" << "\t" << count << "\t";
+        cout << "thread_function call count" << "\t" << count << "\t";
         cout << "threadId\t" << id << endl;
         
         count++;
-        int timeout = rand() % 1000;
-        this_thread::sleep_for(std::chrono::milliseconds(timeout));
+        this_thread::sleep_for(std::chrono::milliseconds(rand() % 1000));
     }
     
     cout << "thread_function quitting" << "\t" << id << endl;
@@ -62,13 +64,19 @@ void thread_function(int id)
  
 int main()  
 {
-    //thread threadObj(thread_function, 1);
-    //thread threadObj2(thread_function, 2);
+    if(_OS_ == 0)
+    {
+        cout << "Windows Environment" << endl;
+    }
+    else
+    {
+        cout << "Linux Environment" << endl;
+    }
+    
+    getchar();
     
     cout << "Display From MainThread" << endl;
     
-    //threadObj.join();
-    //threadObj2.join();
     void (*threadFuncPtr)(int) = thread_function;
     
     thread threadArr[5];
