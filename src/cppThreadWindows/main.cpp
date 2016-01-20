@@ -53,8 +53,8 @@ void thread_function(int id)
         cout << id << endl;
         
         count++;
-        
-        this_thread::sleep_for(std::chrono::milliseconds(500));
+        int timeout = rand() % 1000;
+        this_thread::sleep_for(std::chrono::milliseconds(timeout));
     }
     
     cout << "thread_function quitting" << "\t" << id << endl;
@@ -69,6 +69,18 @@ int main()
     
     threadObj.join();
     threadObj2.join();
+    
+    thread threadArr[5];
+    
+    for(int i = 0; i < 5; i++)
+    {
+        threadArr[i] = thread(thread_function, i);
+    }
+    
+    for(int i = 0; i < 5; i++)
+    {
+        threadArr[i].join();
+    }
     
     cout << "Exit of Main function" << endl;
     
