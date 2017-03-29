@@ -72,18 +72,17 @@ int main()
     {
         cout << "Linux Environment" << endl;
     }
-    
+
+	cout << "Press ENTER to begin" << endl;
     getchar();
     
     cout << "Display From MainThread" << endl;
-    
-    void (*threadFuncPtr)(int) = thread_function;
     
     thread threadArr[5];
     
     for(int i = 0; i < 5; i++)
     {
-        threadArr[i] = thread(threadFuncPtr, i);
+        threadArr[i] = thread(thread_function, i);
         threadArr[i].detach();
     }
     
